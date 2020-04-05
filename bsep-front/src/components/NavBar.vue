@@ -4,8 +4,9 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <router-link to="/" class="defaultStyle"><b-nav-item>Create certificate</b-nav-item></router-link>
-          <b-nav-item>All certificates</b-nav-item>
+        <!--<b-house-fill></b-house-fill>-->
+        <b-button style="margin-right:1em" href="/certificateForm">Create certificate </b-button>
+        <b-button href="/allCertificates"> All certificates  </b-button>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -15,7 +16,7 @@
 <script>
 
 export default {
-
+ 
 };
 </script>
 
