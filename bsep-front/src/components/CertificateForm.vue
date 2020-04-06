@@ -96,9 +96,10 @@
                 text="Key usage"
                 v-model="keyUsage"
                 :options="listOfkeyUsage"
+                multiple 
               >
                 <template v-slot:first>
-                  <b-form-select-option :value="null" disabled>Select an key usage</b-form-select-option>
+                  <b-form-select-option :value="null" disabled>Select one/more KeyUsage</b-form-select-option>
                 </template>
               </b-form-select>
 
@@ -107,21 +108,13 @@
                 text="Extended key usage"
                 v-model="exKeyUsage"
                 :options="listOfExKeyUsages"
+                multiple 
                 :disabled="selected != 'END_ENTITY'"
               >
                 <template v-slot:first>
-                  <b-form-select-option :value="null" disabled>Select an extended key usage</b-form-select-option>
+                  <b-form-select-option :value="null" disabled>Select one/more ExtendedKeyUsage</b-form-select-option>
                 </template>
               </b-form-select>
-            </b-form-group>
-            <b-form-group>
-              <b-form-input
-                type="text"
-                class="mt-3"
-                v-model="authKeyIdentifier"
-                placeholder="Authority key identifier"
-                :readonly="true"
-              ></b-form-input>
             </b-form-group>
           </b-form>
         </div>
@@ -154,8 +147,8 @@ export default {
       authKeyIdentifier: "",
       selected: null,
       issuer: null,
-      keyUsage: null,
-      exKeyUsage: null,
+      keyUsage: [],
+      exKeyUsage: [],
       startDate: null,
       endDate: null,
       issuers: [],
@@ -171,10 +164,18 @@ export default {
         { value: 32768, text: "Decipher Only" }
       ],
       listOfExKeyUsages: [
-        { value: "id-kp 1", text: "Server Authentication" },
-        { value: "id-kp 2", text: "Client Authentication" }
+        { value: "1.3.6.5.5.7.3.1", text: "Server Authentication" },
+        { value: "1.3.6.5.5.7.3.2", text: "Client Authentication" },
+        { value: "1.3.6.5.5.7.3.3", text: "Code Signing" },
+        { value: "1.3.6.5.5.7.3.4", text: "Email protection" },
+        { value: "1.3.6.5.5.7.3.5", text: "End system" },
+        { value: "1.3.6.5.5.7.3.6", text: "Tunel" },
+        { value: "1.3.6.5.5.7.3.7", text: "User" },
+        { value: "1.3.6.5.5.7.3.8", text: "Time Stamping" },
+        { value: "1.3.6.5.5.7.3.9", text: "OCSP Signing" }
       ],
-      showCreated: false
+      showCreated: false,
+      
     };
   },
   created() {
@@ -190,8 +191,9 @@ export default {
   },
   methods: {
     submit: function() {
-      axios
-        .post(baseUrl + "/addNewCertificate", {
+      console.log(this.keyUsage, this.exKeyUsage);
+
+      axios.post(baseUrl + "/addNewCertificate", {
           subjectCommonName: this.subjectCommonName,
           subjectFirstName: this.subjectFirstName,
           subjectLastName: this.subjectLastName,
@@ -203,13 +205,15 @@ export default {
           endDate: this.endDate,
           issuerSerialNumber: this.issuer,
           certificateType: this.selected,
-          keyUsage: this.keyUsage
+          keyUsageList: this.keyUsage,
+          extendedKeyUsageList: this.exKeyUsage,
         })
         .then(() => {
           this.showCreated = true;
           setTimeout(() => {this.showCreated = false;}, 3500);
           this.clearAll();
         });
+      
     },
     clearAll: function() {
       this.subjectCommonName = "";
@@ -223,7 +227,8 @@ export default {
       this.endDate = null;
       this.issuer = null;
       this.selected = null;
-      this.keyUsage = null;
+      this.keyUsage = [];
+      this.exKeyUsage = [];
       location.reload();
     }
   }
