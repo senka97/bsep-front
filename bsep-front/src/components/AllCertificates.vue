@@ -76,6 +76,9 @@
 
 <script>
 import NavBar from "../components/NavBar.vue";
+import axios from "axios";
+
+const baseUrl = "http://localhost:9000/api/pki";
 
 export default {
     name: "AllCertificates",
@@ -84,15 +87,15 @@ export default {
     },
     data() {
       return {
-        fields: ['subject_first_name', 'subject_last_name','start_date', 'end_date', 'revoke', 'details'],
-        items: [
-          { subject_first_name: 'Dickerson', subject_last_name: 'Macdonald' },   
-          { subject_first_name: 'Larsen', subject_last_name: 'Shaw'},
-          { subject_first_name: 'Geneva', subject_last_name: 'Wilson' },
-          { subject_first_name: 'Jami', subject_last_name: 'Carney' }     
-        ]
+        fields: ['subjectFirstName', 'subjectLastName','startDate', 'endDate', 'revoke', 'details'],
+        items: []
       }
-    }
+    },
+    created() {
+        axios.get(baseUrl + "/getAllCertificates").then(response => {
+            this.items=response.data;
+        });
+    },
 };
 </script>
 

@@ -5,6 +5,7 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
         <!--<b-house-fill></b-house-fill>-->
+        <b-button style="margin-right:1em" href="/">Home </b-button>
         <b-button style="margin-right:1em" href="/certificateForm">Create certificate </b-button>
         <b-button href="/allCertificates"> All certificates  </b-button>
         </b-navbar-nav>
