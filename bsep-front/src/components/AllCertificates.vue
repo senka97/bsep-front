@@ -10,7 +10,7 @@
                     <b-button size="sm"  class="mr-2" >  Revoke    </b-button>
                 </template>
                 <template v-slot:cell(details)>
-                    <b-button size="sm"  class="mr-2" href="certificateDetails" >  Details    </b-button>
+                    <b-button size="sm"  class="mr-2" href="/certificateDetails" >  Details    </b-button>
                 </template>
                 </b-table>
             </div>
