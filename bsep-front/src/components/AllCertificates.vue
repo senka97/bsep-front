@@ -10,66 +10,12 @@
                     <b-button size="sm"  class="mr-2" >  Revoke    </b-button>
                 </template>
                 <template v-slot:cell(details)>
-                    <b-button size="sm"  class="mr-2" v-b-modal.modalDetails >  Details    </b-button>
+                    <b-button size="sm"  class="mr-2" href="certificateDetails" >  Details    </b-button>
                 </template>
                 </b-table>
             </div>
             </div>
         </div>
-        <b-modal id="modalDetails" title="Certificate information" ok-only>
-            <table >
-                <tr>
-                    <th>Subject common name</th>
-                    <td><b-form-input type="text"  disabled="true"></b-form-input></td>
-                </tr>
-                <tr>
-                    <th>Subject email</th>
-                    <td><b-form-input type="text"  disabled="true"></b-form-input></td>
-                </tr>
-                <tr>
-                    <th>Subject organization</th>
-                    <td><b-form-input type="text"  disabled="true"></b-form-input></td>
-                </tr>
-                <tr>
-                    <th>Subject organization unit </th>
-                    <td><b-form-input type="text"  disabled="true"></b-form-input></td>
-                </tr>
-                <tr>
-                    <th>Subject country</th>
-                    <td><b-form-input type="text"  disabled="true"></b-form-input></td>
-                </tr>
-                <tr>
-                    <th>Start date</th>
-                    <td><b-form-input type="text"  disabled="true"></b-form-input></td>
-                </tr>
-                <tr>
-                    <th>End date</th>
-                    <td><b-form-input type="text"  disabled="true"></b-form-input></td>
-                </tr>
-                <tr>
-                    <th>Serial number</th>
-                    <td><b-form-input type="text"  disabled="true"></b-form-input></td>
-                </tr>
-                <tr>
-                    <th>Type</th>
-                    <td><b-form-input type="text"  disabled="true"></b-form-input></td>
-                </tr>
-                <tr>
-                    <th>Key usage</th>
-                    <td><b-form-input type="text"  disabled="true"></b-form-input></td>
-                </tr>
-                <tr>
-                    <th>Extended key usage</th>
-                    <td><b-form-input type="text"  disabled="true"></b-form-input></td>
-                </tr>
-                <tr>
-                    <th>Authority key identifier</th>
-                    <td><b-form-input type="text"  disabled="true"></b-form-input></td>
-                </tr>
-                <tr><td colspan="2"></td></tr>
-            </table>
-        
-        </b-modal>
     </div>
   
 </template>
@@ -87,7 +33,7 @@ export default {
     },
     data() {
       return {
-        fields: ['subjectFirstName', 'subjectLastName','startDate', 'endDate', 'revoke', 'details'],
+        fields: ['serialNumber','subject', 'startDate', 'endDate', 'revoke', 'details'],
         items: []
       }
     },
