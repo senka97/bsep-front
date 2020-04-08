@@ -32,10 +32,10 @@
         <div class="container pt-5 d-flex justify-content-center">
           <b-table striped hover bordered borderless :items="items" :fields="fields">
             <template v-slot:cell(revoke)="row">
-              <b-button size="sm" class="mr-2" @click="showModal(row.item.serialNumber)">Revoke</b-button>
+              <b-button size="sm" variant="outline-danger" @click="showModal(row.item.serialNumber)">Revoke</b-button>
             </template>
-            <template v-slot:cell(details)>
-              <b-button size="sm" class="mr-2" href="/certificateDetails">Details</b-button>
+            <template v-slot:cell(details)="row">
+              <b-button size="sm" variant="outline-info" @click="showDetails(row.item.serialNumber)"  >Details</b-button>
             </template>
           </b-table>
         </div>
@@ -90,6 +90,10 @@ export default {
       });
   },
   methods: {
+    showDetails: function(id)
+    {
+        this.$router.push({ path: 'certificateDetails', query: { sn: id } });
+    },
     showModal: function(sn) {
       this.$refs["revocationModal"].show();
       this.serialNumber = sn;
