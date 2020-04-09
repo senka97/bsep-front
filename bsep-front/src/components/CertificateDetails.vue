@@ -29,6 +29,19 @@
                 <b-card-text >
                      <b-card bg-variant="light" align="left" >
                         <b-card-text> <b> Basic Constraints: </b> Subject type: {{this.certificate.type}}</b-card-text>
+                        <b-card-text> <b> Subject Key Identifier: </b>  {{this.certificate.subjectKeyIdentifier}}</b-card-text>
+                        <b-card-text v-show="!this.certificate.isRoot"> <b> Authority Key Identifier: </b>  {{this.certificate.authorityKeyIdentifier}}</b-card-text>
+                        <b-card-text v-show="this.certificate.subjectAlternativeNames"> <b> Subject Alternative Names: </b> 
+                            <b-card-text v-for="san in this.certificate.SubjectAlternativeNames" :key="san" > {{san}}  </b-card-text>
+                         </b-card-text>
+                         <b-card-text v-show="this.certificate.keyUsageList"> <b>  Key Usage: </b>  
+                            <b-card-text v-for="ku in this.certificate.keyUsageList" :key="ku" > {{ku}}  </b-card-text>
+                        </b-card-text>
+                        <b-card-text v-show="this.certificate.extendedKeyUsageList"> <b> Extended Key Usage: </b>  
+                            <b-card-text v-for="eku in this.certificate.extendedKeyUsageList" :key="eku" > {{eku}}  </b-card-text>
+                        </b-card-text>                    
+                        <b-card-text> <b> Authority Information Access: </b>  </b-card-text>
+                        <b-button v-b-toggle.collapse-1 variant="outline-primary" @click="checkOCSP()" >Check OCSP status</b-button>
                      </b-card>
                 </b-card-text>
             </b-tab>
@@ -58,6 +71,11 @@
           </b-tabs>
           <b-button href="/allCertificates" variant="secondary" style="width: 6em; margin: 1em">Go back </b-button>
         </b-card>
+        
+        <b-alert :show="this.OCSPTrue" dismissible fade variant="success">Certificate is valid</b-alert>
+
+        <b-alert :show="this.OCSPFalse" dismissible fade variant="danger">Certificate is revoked</b-alert>
+
     </div>
 </template>
 
@@ -72,6 +90,8 @@ export default {
     data() {
     return {
       certificate: {},
+      OCSPTrue : false,
+      OCSPFalse : false
     }  
   },
   methods: {
@@ -87,6 +107,24 @@ export default {
             }
         )
         },
+        checkOCSP()
+        {
+            axios.get("http://localhost:9000/api/revokedCertificates/checkRevocationStatusOCSP/"+this.certificate.serialNumber).then(
+                response => {
+                    console.log(response.data)
+                    if(response.data==false)
+                    {
+                        this.OCSPTrue = true;
+                        setTimeout(() => {this.OCSPTrue = false;}, 4500);
+                    }
+                    else
+                    {
+                        this.OCSPFalse = true;
+                        setTimeout(() => {this.OCSPFalse = false;}, 4500 )
+                    }
+                }
+            )
+        }
         
     },
     created() {

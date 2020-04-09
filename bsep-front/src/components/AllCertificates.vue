@@ -28,14 +28,23 @@
         variant="success"
         >You succesfully revoked certificate</b-alert>
 
+        <b-alert :show="this.valid" dismissible fade variant="success">Certificate is valid</b-alert>
+
+        <b-alert :show="this.notValid" dismissible fade variant="danger">Certificate is not valid</b-alert>
+
+        <b-alert :show="this.alreadyRevoked" dismissible fade variant="danger">Certificate already revoked </b-alert>
+
         <h3 class="mb-2">All certificates</h3>
         <div class="container pt-5 d-flex justify-content-center">
           <b-table striped hover bordered borderless :items="items" :fields="fields">
+            <template v-slot:cell(details)="row">
+              <b-button size="sm" variant="outline-info" @click="showDetails(row.item.serialNumber)" >Details</b-button>
+            </template>
             <template v-slot:cell(revoke)="row">
               <b-button size="sm" variant="outline-danger" @click="showModal(row.item.serialNumber)">Revoke</b-button>
             </template>
-            <template v-slot:cell(details)="row">
-              <b-button size="sm" variant="outline-info" @click="showDetails(row.item.serialNumber)"  >Details</b-button>
+            <template v-slot:cell(isValid)="row">
+              <b-button size="sm" variant="outline-warning" @click="isValid(row.item.serialNumber)" >Check Validity</b-button>
             </template>
           </b-table>
         </div>
@@ -63,14 +72,18 @@ export default {
         "startDate",
         "endDate",
         "revoke",
-        "details"
+        "details",
+        "isValid"
       ],
       items: [],
       reasons: [],
       reason: null,
       revocatioReasonId: null,
       serialNumber: null,
-      showCreated: false
+      showCreated: false,
+      valid : false,
+      notValid: false,
+      alreadyRevoked: false
     };
   },
   created() {
@@ -93,6 +106,24 @@ export default {
     showDetails: function(id)
     {
         this.$router.push({ path: 'certificateDetails', query: { sn: id } });
+    },
+    isValid: function(id)
+    {
+      axios.get(baseUrl + "pki/checkValidityStatus/"+id).then(
+        response => {
+          if(response.data==true)
+                    {
+                        this.valid = true;
+                        setTimeout(() => {this.valid = false;}, 4500);
+                    }
+                    else
+                    {
+                        this.notValid = true;
+                        setTimeout(() => {this.notValid = false;}, 4500 )
+                    }
+        }
+      )
+
     },
     showModal: function(sn) {
       this.$refs["revocationModal"].show();
@@ -117,6 +148,13 @@ export default {
             setTimeout(() => {
               location.reload();
             }, 4000);
+          })
+          .catch(error => {
+          if (error.response && error.response.status === 400) {
+              this.hideModal();
+              this.alreadyRevoked= true;
+              setTimeout(() => {this.alreadyRevoked = false;}, 3500);
+          }
           });
       }
     }
