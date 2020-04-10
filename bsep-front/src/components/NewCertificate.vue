@@ -277,7 +277,7 @@ export default {
             this.keyUsages = keyUsageCA;
             this.basicC = bcCAValue;
             this.resetFields();
-            this.retrieveCAs();
+            //this.retrieveCAs();
             
         },
         CSCertificate: function(){
@@ -292,7 +292,7 @@ export default {
             this.eKeyUsages = eKeyUsageCS;
             this.basicC = bcCSValue;
             this.resetFields();
-            this.retrieveCAs();
+           // this.retrieveCAs();
 
         },
         SACertificate: function(){
@@ -307,7 +307,7 @@ export default {
             this.eKeyUsages = eKeyUsageSA;
             this.basicC = bcSAValue;
             this.resetFields();
-            this.retrieveCAs();
+            //this.retrieveCAs();
 
         },
         OCSPCertificate: function(){
@@ -322,7 +322,7 @@ export default {
             this.eKeyUsages = eKeyUsageOCSP;
             this.basicC = bcOCSPValue;
             this.resetFields();
-            this.retrieveCAs();
+            //this.retrieveCAs();
         },
         resetFields: function() {
             this.subjectCN = "";
@@ -342,6 +342,7 @@ export default {
             let now = new Date();
             let today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             this.startDate = new Date(today);
+            this.retrieveCAs();
 
         },
         submit: function(){
