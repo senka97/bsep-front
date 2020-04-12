@@ -42,6 +42,10 @@
                         </b-card-text>                    
                         <b-card-text> <b> Authority Information Access: </b>  </b-card-text>
                         <b-button v-b-toggle.collapse-1 variant="outline-primary" @click="checkOCSP()" >Check OCSP status</b-button>
+
+                        <b-alert class="mt-2" :show="this.OCSPTrue" dismissible fade variant="success">Certificate is valid</b-alert>
+
+                        <b-alert class="mt-2" :show="this.OCSPFalse" dismissible fade variant="danger">Certificate is revoked</b-alert>
                      </b-card>
                 </b-card-text>
             </b-tab>
@@ -71,11 +75,6 @@
           </b-tabs>
           <b-button href="/allCertificates" variant="secondary" style="width: 6em; margin: 1em">Go back </b-button>
         </b-card>
-        
-        <b-alert :show="this.OCSPTrue" dismissible fade variant="success">Certificate is valid</b-alert>
-
-        <b-alert :show="this.OCSPFalse" dismissible fade variant="danger">Certificate is revoked</b-alert>
-
     </div>
 </template>
 
