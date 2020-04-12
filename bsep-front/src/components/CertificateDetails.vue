@@ -32,7 +32,7 @@
                         <b-card-text> <b> Subject Key Identifier: </b>  {{this.certificate.subjectKeyIdentifier}}</b-card-text>
                         <b-card-text v-show="!this.certificate.isRoot"> <b> Authority Key Identifier: </b>  {{this.certificate.authorityKeyIdentifier}}</b-card-text>
                         <b-card-text v-show="this.certificate.subjectAlternativeNames"> <b> Subject Alternative Names: </b> 
-                            <b-card-text v-for="san in this.certificate.SubjectAlternativeNames" :key="san" > {{san}}  </b-card-text>
+                            <b-card-text v-for="san in this.certificate.subjectAlternativeNames" :key="san" > {{san}}  </b-card-text>
                          </b-card-text>
                          <b-card-text v-show="this.certificate.keyUsageList"> <b>  Key Usage: </b>  
                             <b-card-text v-for="ku in this.certificate.keyUsageList" :key="ku" > {{ku}}  </b-card-text>

@@ -343,7 +343,6 @@ export default {
             let today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             this.startDate = new Date(today);
             this.retrieveCAs();
-
         },
         submit: function(){
 
@@ -361,7 +360,8 @@ export default {
                 issuerSerialNumber: this.issuer
                 };
 
-            if(this.typeSAN!=null & !this.valueSAN && !this.tempRootCA && !this.tempCA){
+            if(this.typeSAN!=null & this.valueSAN != ""){
+                alert(this.valueSAN);
                 certDTO.typeSAN = this.typeSAN;
                 certDTO.valueSAN = this.valueSAN;
             }    
@@ -477,7 +477,6 @@ export default {
         }*/
     }
         
-    
 }
 </script>
 
