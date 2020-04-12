@@ -343,7 +343,6 @@ export default {
             let today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             this.startDate = new Date(today);
             this.retrieveCAs();
-
         },
         submit: function(){
 
