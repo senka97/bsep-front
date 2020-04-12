@@ -361,7 +361,8 @@ export default {
                 issuerSerialNumber: this.issuer
                 };
 
-            if(this.typeSAN!=null & !this.valueSAN && !this.tempRootCA && !this.tempCA){
+            if(this.typeSAN!=null & this.valueSAN != ""){
+                alert(this.valueSAN);
                 certDTO.typeSAN = this.typeSAN;
                 certDTO.valueSAN = this.valueSAN;
             }    
