@@ -361,7 +361,6 @@ export default {
                 };
 
             if(this.typeSAN!=null & this.valueSAN != ""){
-                alert(this.valueSAN);
                 certDTO.typeSAN = this.typeSAN;
                 certDTO.valueSAN = this.valueSAN;
             }    
