@@ -31,48 +31,48 @@
     <div class="containter mx-2 row">
         <div class="col">
             <b-form-group  label-cols="1" label-cols-lg="2" label-size="sm" label="CN:" label-for="input-CN">
-            <b-form-input id="input-CN" size="sm" placeholder="Common name" v-model="subjectCN" required></b-form-input>
+            <b-form-input id="input-CN" size="sm" placeholder="Common name" v-model="subjectCN" required trim></b-form-input>
             </b-form-group> 
         </div>
         <div class="col">
             <b-form-group label-cols="1" label-cols-lg="4" label-size="sm" label="GIVENNAME:" label-for="input-GIVENANEM">
-            <b-form-input id="input-GIVENNAME" size="sm" placeholder="Given name" v-model="subjectGIVENNAME"></b-form-input>
+            <b-form-input id="input-GIVENNAME" size="sm" placeholder="Given name" v-model="subjectGIVENNAME" trim></b-form-input>
            </b-form-group>
         </div>
     </div> 
     <div class="containter mx-2 row">
         <div class="col">
             <b-form-group  label-cols="1" label-cols-lg="4" label-size="sm" label="SURNAME:" label-for="input-SURNAME">
-            <b-form-input id="input-SURNAME" size="sm" placeholder="Surname" v-model="subjectSURNAME"></b-form-input>
+            <b-form-input id="input-SURNAME" size="sm" placeholder="Surname" v-model="subjectSURNAME" trim></b-form-input>
             </b-form-group> 
         </div>
         <div class="col">
             <b-form-group label-cols="1" label-cols-lg="1" label-size="sm" label="O:" label-for="input-O">
-            <b-form-input id="input-O" size="sm" placeholder="Organization" v-model="subjectO"></b-form-input>
+            <b-form-input id="input-O" size="sm" placeholder="Organization" v-model="subjectO" trim></b-form-input>
            </b-form-group>
         </div>
     </div> 
     <div class="containter mx-2 row">
         <div class="col">
             <b-form-group  label-cols="1" label-cols-lg="2" label-size="sm" label="OU:" label-for="input-OU">
-            <b-form-input id="input-OU" size="sm" placeholder="Organzation unit" v-model="subjectOU"></b-form-input>
+            <b-form-input id="input-OU" size="sm" placeholder="Organzation unit" v-model="subjectOU" trim></b-form-input>
             </b-form-group> 
         </div>
         <div class="col">
             <b-form-group label-cols="1" label-cols-lg="1" label-size="sm" label="C:" label-for="input-C">
-            <b-form-input id="input-C" size="sm" placeholder="Country" v-model="subjectC"></b-form-input>
+            <b-form-input id="input-C" size="sm" placeholder="Country" v-model="subjectC" trim></b-form-input>
            </b-form-group>
         </div>
     </div>
     <div class="containter mx-2 row">
         <div class="col">
             <b-form-group  label-cols="1" label-cols-lg="2" label-size="sm" label="ST:" label-for="input-ST">
-              <b-form-input id="input-ST" size="sm" placeholder="State or province" v-model="subjectST"></b-form-input>
+              <b-form-input id="input-ST" size="sm" placeholder="State or province" v-model="subjectST" trim></b-form-input>
             </b-form-group> 
         </div>
         <div class="col">
             <b-form-group label-cols="1" label-cols-lg="1" label-size="sm" label="E:" label-for="input-E">
-              <b-form-input type="email" id="input-E" size="sm" placeholder="Email" v-model="subjectE"></b-form-input>
+              <b-form-input type="email" id="input-E" size="sm" placeholder="Email" v-model="subjectE" trim></b-form-input>
            </b-form-group>
         </div>
     </div>
@@ -125,8 +125,8 @@
             </b-form-group> 
         </div>
         <div class="col-6">
-            <b-form-group label-cols-lg="1" label-size="sm" label-for="input-aki">
-            <b-form-input id="input-aki" size="sm" :disabled="!selectedTypeSAN" placeholder="Enter a value" v-model="valueSAN"></b-form-input>     
+            <b-form-group label-cols-lg="1" label-size="sm" label-for="input-san" :invalid-feedback="invalidFeedbackSAN" :valid-feedback="validFeedbackSAN" :state="stateSAN">
+            <b-form-input id="input-san" size="sm" :disabled="!selectedTypeSAN" placeholder="Enter a value" v-model="valueSAN" trim></b-form-input>     
             </b-form-group> 
         </div>
     </div>
@@ -421,14 +421,49 @@ export default {
         isFormValid: function() {
             
             if(this.tempRootCA){
-                return this.subjectCN && this.endDate;
+                return this.subjectCN && this.endDate && this.stateSAN;
             }else{
-                return this.subjectCN && this.issuer && this.endDate;
+                return this.subjectCN && this.issuer && this.endDate && this.stateSAN;
             }
     
         },
         showForm: function(){
             return this.tempRootCA || this.tempCA || this.tempCS || this.tempSA || this.tempOCSP;
+        },
+        stateSAN: function(){
+            if(this.typeSAN == 7 && this.valueSAN != ""){
+                 if(!this.valueSAN.match(/(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/)){
+                return false;
+                }else{
+                    return true;
+                }
+            }else{
+                return true;
+            }
+        },
+        invalidFeedbackSAN: function(){
+
+            if(this.stateSAN == false){
+                  return 'Invalid format for IP address.';
+            }else{
+                  return '';
+            }
+            
+          
+              
+        },
+        validFeedbackSAN: function(){
+            
+               if(this.typeSAN == 7 && this.valueSAN != ""){
+                 if(!this.valueSAN.match(/[0-255].[0-255].[0-255].[0-255]/)){
+                return '';
+                }else{
+                    return 'Valid format';
+                }
+            }else{
+                return '';
+            }
+                
         }
         /*issuerAllowed: function() {
             return this.endDate && !this.tempRootCA;
