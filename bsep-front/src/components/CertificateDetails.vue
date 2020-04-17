@@ -43,9 +43,9 @@
                         <b-card-text> <b> Authority Information Access: </b>  </b-card-text>
                         <b-button v-b-toggle.collapse-1 variant="outline-primary" @click="checkOCSP()" >Check OCSP status</b-button>
 
-                        <b-alert class="mt-2" :show="this.OCSPTrue" dismissible fade variant="success">Certificate is valid</b-alert>
+                        <b-alert class="mt-2" :show="this.OCSPTrue" dismissible fade variant="success">Certificate is not revoked.</b-alert>
 
-                        <b-alert class="mt-2" :show="this.OCSPFalse" dismissible fade variant="danger">Certificate is revoked</b-alert>
+                        <b-alert class="mt-2" :show="this.OCSPFalse" dismissible fade variant="danger">Certificate is revoked.</b-alert>
                      </b-card>
                 </b-card-text>
             </b-tab>

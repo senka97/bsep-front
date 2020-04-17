@@ -28,11 +28,11 @@
         variant="success"
         >You succesfully revoked certificate</b-alert>
 
-        <b-alert :show="this.valid" dismissible fade variant="success">Certificate is valid</b-alert>
+        <b-alert :show="this.valid" dismissible fade variant="success">Certificate is valid.</b-alert>
 
-        <b-alert :show="this.notValid" dismissible fade variant="danger">Certificate is not valid</b-alert>
+        <b-alert :show="this.notValid" dismissible fade variant="danger">Certificate is not valid.</b-alert>
 
-        <b-alert :show="this.alreadyRevoked" dismissible fade variant="danger">Certificate already revoked </b-alert>
+        <b-alert :show="this.alreadyRevoked" dismissible fade variant="danger">Certificate is already revoked. </b-alert>
 
         <h3 class="mb-2">All certificates</h3>
         <div class="container pt-5 d-flex justify-content-center">
@@ -45,6 +45,9 @@
             </template>
             <template v-slot:cell(isValid)="row">
               <b-button size="sm" variant="outline-warning" @click="isValid(row.item.serialNumber)" >Check Validity</b-button>
+            </template>
+            <template v-slot:cell(download)="row">
+              <b-button size="sm" variant="outline-success" @click="download(row.item.serialNumber)" >Download</b-button>
             </template>
           </b-table>
         </div>
@@ -73,7 +76,8 @@ export default {
         "endDate",
         "revoke",
         "details",
-        "isValid"
+        "isValid",
+        "download"
       ],
       items: [],
       reasons: [],
@@ -157,6 +161,19 @@ export default {
           }
           });
       }
+    },
+    download: function(sn){
+
+          console.log(sn);
+          axios.get(baseUrl + "pki/downloadCertificate/" + sn).then(response => {
+                          console.log(response.data);
+                          
+                          let FileSaver = require('file-saver');
+                          let blob = new Blob([response.data],{type: 'pkix-cert'});
+                          console.log(blob.size);
+                          FileSaver.saveAs(blob, "certificate.cer");
+              
+                });
     }
   }
 };
