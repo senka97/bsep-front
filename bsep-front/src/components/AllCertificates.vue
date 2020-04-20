@@ -139,7 +139,7 @@ export default {
     revoke: function() {
       if (this.reason != null) {
         axios
-          .put(baseUrl + "revokedCertificates/revokeCertificate", {
+          .put(baseUrl + "pki/revokeCertificate", {
             serialNumber: this.serialNumber,
             idRevocationReason: this.reason
           })
