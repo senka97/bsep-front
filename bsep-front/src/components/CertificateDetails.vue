@@ -108,7 +108,7 @@ export default {
         },
         checkOCSP()
         {
-            axios.get("http://localhost:9000/api/revokedCertificates/checkRevocationStatusOCSP/"+this.certificate.serialNumber).then(
+            axios.get("http://localhost:9000/api/pki/checkRevocationStatusOCSP/"+this.certificate.serialNumber).then(
                 response => {
                     console.log(response.data)
                     if(response.data==false)
