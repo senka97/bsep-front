@@ -5,6 +5,7 @@ import AllCertificates from '../components/AllCertificates.vue'
 import startPage from '../components/startPage.vue'
 import CertificateDetails from '../components/CertificateDetails.vue'
 import NewCertificate from '../components/NewCertificate.vue'
+import LoginPage from '../components/LoginPage.vue'
 
 Vue.use(Router)
 
@@ -15,6 +16,11 @@ export default new Router({
             path: '/',
             name: 'StartPage',
             component: startPage
+        },
+        {
+            path: '/login',
+            name: 'LoginPage',
+            component: LoginPage
         },
         {
             path: '/certificateForm',
