@@ -5,10 +5,17 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
         <!--<b-house-fill></b-house-fill>-->
-        <b-button style="margin-right:1em" href="/">Home </b-button>
-        <b-button style="margin-right:1em" href="/newCertificate">Create certificate </b-button>
-        <b-button href="/allCertificates"> All certificates  </b-button>
+          <b-nav-item v-if="loggedIn" href="/" link-classes="text-light"><b>Home</b></b-nav-item>
+          <b-nav-item v-if="loggedIn"  href="/newCertificate" link-classes="text-light"><b>Create Certificate</b></b-nav-item>
+          <b-nav-item v-if="loggedIn"  href="/allCertificates" link-classes="text-light"><b>All Certificates</b></b-nav-item>
         </b-navbar-nav>
+
+        <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item v-if="!loggedIn" href="/login" link-classes="text-light"><b>Log in</b></b-nav-item>
+          <b-nav-item v-if="loggedIn" @click="logout()" link-classes="text-light"><b>Log out</b></b-nav-item>
+        </b-navbar-nav>
+      </b-collapse>
       </b-collapse>
     </b-navbar>
   </div>
@@ -18,6 +25,18 @@
 
 export default {
  
+  methods: {
+       logout: function() { 
+          this.$store.dispatch('destroyToken');
+          this.$router.push({'name': 'LoginPage'});
+          
+       }
+    },
+    computed: {
+      loggedIn(){
+        return this.$store.getters.loggedIn;
+      }
+    }
 };
 </script>
 
