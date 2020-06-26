@@ -168,7 +168,7 @@
 
 import NavBar from "../components/NavBar.vue";
 import axios from "axios";
-const baseUrl = "http://localhost:9000/api/pki";
+const baseUrl = "https://localhost:9000/api/pki";
 
 //CS
 const keyUsageCS = "Digital signature";
