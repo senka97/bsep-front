@@ -81,7 +81,7 @@
 <script>
 import axios from "axios";
 
-const baseUrl = "http://localhost:9000/api/pki/";
+const baseUrl = "https://localhost:9000/api/pki/";
 
 
 export default {
@@ -108,7 +108,7 @@ export default {
         },
         checkOCSP()
         {
-            axios.get("http://localhost:9000/api/pki/checkRevocationStatusOCSP/"+this.certificate.serialNumber).then(
+            axios.get("https://localhost:9000/api/pki/checkRevocationStatusOCSP/"+this.certificate.serialNumber).then(
                 response => {
                     console.log(response.data)
                     if(response.data==false)
