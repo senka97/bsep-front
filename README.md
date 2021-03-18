@@ -8,5 +8,4 @@ Backend aplikacija: https://github.com/senka97/bsep-back
 
 Korišćene tehnologije:
 
- - Backend: Spring Boot, MySQL v8.0.18
- - Frontend: Vue.js
+  - Vue.js
